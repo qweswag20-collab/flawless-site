@@ -4,15 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>flawless LEGACY — Lua для gamesense (CS:GO Legacy)</title>
-<meta name="description" content="Скачать flawless Legacy — резолвер без Player List, мировые 3D-эффекты и индикатор у прицела. Один самодостаточный Lua-скрипт для gamesense на CS:GO Legacy.">
+<title>flawless — Lua для gamesense (CS:GO)</title>
+<meta name="description" content="Скачать flawless.lua для gamesense.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpolygon points='24,4 44,24 24,44 4,24' fill='none' stroke='%23a184ff' stroke-width='3' stroke-linejoin='round'/%3E%3Ctext x='24' y='30' text-anchor='middle' font-family='Segoe UI,sans-serif' font-size='16' font-weight='800' fill='%23a184ff'%3EF%3C/text%3E%3C/svg%3E">
 <style>
 :root{
   --bg:#07080d; --panel:#101219; --panel2:#0c0e15;
   --border:#1d2130; --border2:#2b3044;
   --text:#e8eaf3; --muted:#8b90a3; --dim:#5c6172;
-  --acc:#a184ff; --cyan:#60d9eb; --green:#74e1b2; --red:#fa7d91; --gold:#ffd078;
+  --acc:#a184ff; --cyan:#60d9eb; --green:#74e1b2;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -28,10 +28,8 @@ body::before{
 ::selection{background:rgba(161,132,255,.35)}
 code,pre{font-family:Consolas,"Cascadia Mono","JetBrains Mono",monospace}
 .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
-section{scroll-margin-top:88px}
 #bg{position:fixed;inset:0;z-index:-1}
 
-/* ---------- nav ---------- */
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:50;
   background:rgba(7,8,13,.72); backdrop-filter:blur(12px);
@@ -40,49 +38,35 @@ section{scroll-margin-top:88px}
 .nav .wrap{display:flex;align-items:center;gap:28px;height:64px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;white-space:nowrap}
 .brand svg{width:25px;height:25px;filter:drop-shadow(0 0 10px rgba(161,132,255,.5))}
-.tag{
-  font-size:10.5px;font-weight:700;letter-spacing:2.5px;color:var(--cyan);
-  border:1px solid rgba(96,217,235,.35);padding:2px 7px;border-radius:3px;
-}
-.links{display:flex;gap:24px;margin-left:auto}
-.links a{color:var(--muted);text-decoration:none;font-size:14.5px;transition:color .2s}
-.links a:hover{color:var(--text)}
-@media (max-width:760px){.links{display:none}}
-
-/* ---------- buttons ---------- */
+.links{margin-left:auto}
 .btn{
   display:inline-flex;align-items:center;gap:9px;text-decoration:none;
   border-radius:8px;font-weight:600;transition:all .2s;cursor:pointer;border:none;
 }
 .btn svg{width:18px;height:18px}
-.btn.primary{
-  background:linear-gradient(135deg,#b093ff,#8f6dff);
-  color:#fff;padding:15px 28px;font-size:16.5px;
-  box-shadow:0 8px 30px rgba(161,132,255,.35);
-}
-.btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(161,132,255,.5)}
-.btn.ghost{border:1px solid var(--border2);color:var(--text);padding:14px 24px;font-size:15.5px;background:rgba(16,18,25,.5)}
-.btn.ghost:hover{border-color:var(--acc);color:#fff}
 .btn.small{padding:8px 18px;font-size:13.5px;background:rgba(161,132,255,.14);color:var(--text);border:1px solid rgba(161,132,255,.35)}
 .btn.small:hover{background:rgba(161,132,255,.25)}
 
-/* ---------- hero ---------- */
-.hero{padding:152px 0 74px;text-align:center}
+.hero{padding:158px 0 80px;text-align:center}
 .kicker{
   display:inline-flex;align-items:center;gap:9px;
   font-family:Consolas,monospace;font-size:12px;letter-spacing:2.5px;
   color:var(--muted);text-transform:uppercase;
 }
 .kicker::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--cyan);transform:rotate(45deg)}
-.hero-logo{margin:26px auto 6px;width:104px;height:104px;filter:drop-shadow(0 0 38px rgba(161,132,255,.45))}
-h1{font-size:clamp(44px,7vw,74px);line-height:1.04;font-weight:800;letter-spacing:-1.5px;margin:10px 0 16px}
+.hero-logo{margin:28px auto 8px;width:110px;height:110px;filter:drop-shadow(0 0 40px rgba(161,132,255,.5))}
+h1{font-size:clamp(46px,8vw,84px);line-height:1.04;font-weight:800;letter-spacing:-1.5px;margin:8px 0 30px}
 h1 .grad{
   background:linear-gradient(120deg,#cbb8ff,#a184ff 45%,#60d9eb);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.sub{max-width:660px;margin:0 auto;color:var(--muted);font-size:18px}
-.cta{display:flex;gap:14px;justify-content:center;margin:36px 0 28px;flex-wrap:wrap}
-.chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn.primary{
+  background:linear-gradient(135deg,#b093ff,#8f6dff);
+  color:#fff;padding:16px 30px;font-size:17px;
+  box-shadow:0 8px 30px rgba(161,132,255,.35);
+}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(161,132,255,.5)}
+.chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:30px}
 .chip{
   font-family:Consolas,monospace;font-size:12.5px;color:var(--muted);
   border:1px solid var(--border);background:var(--panel2);
@@ -91,7 +75,7 @@ h1 .grad{
 .chip b{color:var(--text);font-weight:600}
 .chip.ok{color:var(--green);border-color:rgba(116,225,178,.3)}
 .hash{
-  margin-top:24px;display:inline-flex;align-items:center;gap:11px;
+  margin-top:22px;display:inline-flex;align-items:center;gap:11px;
   font-family:Consolas,monospace;font-size:12px;color:var(--dim);
   background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:9px 15px;
 }
@@ -103,85 +87,6 @@ h1 .grad{
 }
 .copy:hover{border-color:var(--acc);color:var(--text)}
 
-/* ---------- sections ---------- */
-.sect{padding:74px 0 0}
-.sec-head h2{font-size:clamp(26px,4vw,34px);font-weight:750;letter-spacing:-.5px}
-.sec-head h2 em{font-style:normal;color:var(--acc)}
-.sec-sub{color:var(--muted);max-width:640px;margin-top:9px;font-size:16px}
-
-/* ---------- features ---------- */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:40px}
-.card{
-  background:linear-gradient(180deg,var(--panel),var(--panel2));
-  border:1px solid var(--border);border-radius:14px;padding:25px;transition:all .25s;
-}
-.card:hover{transform:translateY(-3px);border-color:rgba(161,132,255,.45);box-shadow:0 16px 44px rgba(0,0,0,.45)}
-.ico{
-  width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-  background:rgba(161,132,255,.12);border:1px solid rgba(161,132,255,.28);
-  color:var(--acc);margin-bottom:16px;
-}
-.ico svg{width:21px;height:21px}
-.card h3{font-size:16.5px;margin-bottom:8px;font-weight:700}
-.card>p{font-size:14.5px;color:var(--muted)}
-.card ul{margin:12px 0 0 2px;list-style:none}
-.card li{
-  font-size:13.5px;color:var(--muted);padding-left:17px;position:relative;margin-top:7px;
-}
-.card li::before{
-  content:"";position:absolute;left:0;top:9px;width:6px;height:6px;
-  border-radius:2px;background:var(--cyan);opacity:.55;transform:rotate(45deg);
-}
-.note{
-  margin-top:22px;border:1px dashed var(--border2);border-radius:12px;
-  padding:18px 22px;color:var(--muted);font-size:14px;
-  background:rgba(250,125,145,.035);
-}
-.note b{color:var(--red);font-weight:600}
-
-/* ---------- install ---------- */
-.steps{margin-top:40px;display:grid;gap:13px}
-.step{
-  display:flex;gap:18px;align-items:flex-start;
-  background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:19px 23px;
-  transition:border-color .2s;
-}
-.step:hover{border-color:var(--border2)}
-.num{
-  font-family:Consolas,monospace;font-weight:700;color:var(--acc);font-size:15px;
-  border:1px solid rgba(161,132,255,.35);border-radius:9px;min-width:38px;height:38px;
-  display:flex;align-items:center;justify-content:center;background:rgba(161,132,255,.08);
-}
-.step p{color:var(--muted);font-size:14.5px;margin-top:3px}
-.step b{color:var(--text);font-size:15px}
-.path{
-  background:#0a0c12;border:1px solid var(--border);padding:2px 8px;border-radius:5px;
-  font-size:12.5px;color:var(--cyan);word-break:break-all;
-}
-
-/* ---------- changelog ---------- */
-.timeline{margin-top:40px;border-left:2px solid var(--border)}
-.rel{position:relative;padding:0 0 28px 30px}
-.rel::before{
-  content:"";position:absolute;left:-8px;top:6px;width:12px;height:12px;border-radius:50%;
-  background:var(--bg);border:2px solid var(--acc);
-}
-.rel.latest::before{background:var(--acc);box-shadow:0 0 16px rgba(161,132,255,.8)}
-.ver{font-family:Consolas,monospace;font-weight:700;color:var(--acc);font-size:15px}
-.rel.latest .ver::after{
-  content:"latest";margin-left:11px;font-size:10px;letter-spacing:1.5px;
-  color:var(--green);border:1px solid rgba(116,225,178,.35);
-  padding:2px 8px;border-radius:999px;vertical-align:2px;
-}
-.rel p{color:var(--muted);font-size:14.5px;margin-top:6px;max-width:660px}
-
-/* ---------- footer ---------- */
-footer{border-top:1px solid var(--border);margin-top:84px;padding:34px 0 46px;color:var(--dim);font-size:13.5px}
-.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
-.foot .brand{font-size:14.5px}
-.foot .brand svg{width:19px;height:19px;filter:none}
-
-/* ---------- reveal ---------- */
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){
@@ -210,195 +115,39 @@ footer{border-top:1px solid var(--border);margin-top:84px;padding:34px 0 46px;co
 
 <header class="nav">
   <div class="wrap">
-    <div class="brand"><svg><use href="#logo"/></svg>flawless <span class="tag">LEGACY</span></div>
-    <nav class="links">
-      <a href="#features">Возможности</a>
-      <a href="#install">Установка</a>
-      <a href="#changelog">Changelog</a>
-    </nav>
-    <a class="btn small" href="flawless_legacy.lua" download="flawless_legacy.lua">Скачать</a>
+    <div class="brand"><svg><use href="#logo"/></svg>flawless</div>
+    <div class="links"><a class="btn small" href="flawless_legacy.lua" download="flawless_legacy.lua">Скачать</a></div>
   </div>
 </header>
 
 <main>
   <section class="hero wrap">
-    <span class="kicker">Lua-скрипт для gamesense.pub · CS:GO Legacy</span>
+    <span class="kicker">Lua-скрипт для gamesense.pub</span>
     <svg class="hero-logo"><use href="#logo"/></svg>
-    <h1>flawless <span class="grad">LEGACY</span></h1>
-    <p class="sub">Резолвер без Player List, мировые 3D-эффекты и текстовый индикатор у прицела —
-    один самодостаточный Lua-скрипт. Без HTTP, FFI и внешних загрузок.</p>
-    <div class="cta">
-      <a class="btn primary" href="flawless_legacy.lua" download="flawless_legacy.lua">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4.5 21h15"/></svg>
-        Скачать flawless_legacy.lua
-      </a>
-      <a class="btn ghost" href="#features">Что внутри</a>
-    </div>
+    <h1><span class="grad">flawless</span></h1>
+    <a class="btn primary" href="flawless_legacy.lua" download="flawless_legacy.lua">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4.5 21h15"/></svg>
+      Скачать flawless_legacy.lua
+    </a>
     <div class="chips">
-      <span class="chip" id="chip-ver">v1.4.2</span>
-      <span class="chip">$11053</b> строк</span>
+      <span class="chip" id="chip-ver">v1.4.3</span>
+      <span class="chip">$11042</b> строк</span>
       <span class="chip">$143</b> KB</span>
       <span class="chip ok">мастер выключен при старте</span>
     </div>
     <div class="hash">
       <span class="lbl">SHA-256</span>
-      <code id="sha">c4725bc0c403b750c90fff5b58a1e58126cd33025bb8129affaf8dc33bcf3785</code>
-      <button class="copy" data-copy="c4725bc0c403b750c90fff5b58a1e58126cd33025bb8129affaf8dc33bcf3785">копировать</button>
-    </div>
-  </section>
-
-  <section id="features" class="sect wrap">
-    <div class="sec-head">
-      <h2>Что внутри <em>скрипта</em></h2>
-      <p class="sec-sub">Всё, что описано ниже, живёт в одном файле и настраивается из меню чит-клиента: страницы Resolver, Visuals и Profiles.</p>
-    </div>
-    <div class="grid">
-      <div class="card reveal">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="6.5"/><path d="M12 2.5v3.5M12 18v3.5M2.5 12H6M18 12h3.5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/></svg></div>
-        <h3>Резолвер без Player List</h3>
-        <p>Работает напрямую с сущностями — ни одного обращения к plist.</p>
-        <ul>
-          <li>LBY — главный источник на земле, оригинал восстанавливается</li>
-          <li>Джиттер-центрирование чередующегося eye-yaw (режим в воздухе)</li>
-          <li>Движущиеся цели — направление через velocity</li>
-          <li>Brute force {0, +limit, -limit} по промахам, с защитой от ложных срабатываний</li>
-        </ul>
-      </div>
-      <div class="card reveal">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v4.5M12 16.5V21M3 12h4.5M16.5 12H21M5.6 5.6l3.1 3.1M15.3 15.3l3.1 3.1M18.4 5.6l-3.1 3.1M8.7 15.3l-3.1 3.1"/></svg></div>
-        <h3>3D-эффекты в мире</h3>
-        <p>Частицы живут в мировых координатах, а не приклеены к экрану.</p>
-        <ul>
-          <li>Хит-частицы: сфера, гравитация, затухание, позиция из хитбокса</li>
-          <li>Килл-бурст: золотой взрыв + ударные кольца по 20 сегментам</li>
-          <li>Кап 320 частиц / 8 колец, очистка на round_start</li>
-        </ul>
-      </div>
-      <div class="card reveal">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l3.5 3.5L12 10 8.5 6.5z"/><path d="M5 15.5h14M8 19h8"/></svg></div>
-        <h3>Индикатор у прицела</h3>
-        <p>Только текст и векторное лого — никаких панелей и фонов.</p>
-        <ul>
-          <li>Бриллиант с двойным контуром, внутренняя рамка, буква F</li>
-          <li>Статус: резолвер / точность / скорость / киллы</li>
-          <li>При скопе плавный сдвиг в сторону: Left / Right, spring-анимация</li>
-        </ul>
-      </div>
-      <div class="card reveal">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M9.5 9.5V20"/></svg></div>
-        <h3>HUD</h3>
-        <p>Классический набор в стиле скита, рисуется поверх игры.</p>
-        <ul>
-          <li>Ватермарка: пинг, fps, tickrate, время</li>
-          <li>Список кейнбиндов с перетаскиванием за заголовок</li>
-          <li>Шот-фид + консольные логи хитов / промахов / резолвера</li>
-        </ul>
-      </div>
-      <div class="card reveal">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v6.5c0 1.65 3.6 3 8 3s8-1.35 8-3V5.5"/><path d="M4 12v6.5c0 1.65 3.6 3 8 3s8-1.35 8-3V12"/></svg></div>
-        <h3>Профили</h3>
-        <p>Настройки живут локально и переживают перезапуск.</p>
-        <ul>
-          <li>5 локальных слотов через database.write</li>
-          <li>Импорт настроек старых версий (nexra → flawless)</li>
-          <li>Безопасный apply: валидация и полный откат при ошибке</li>
-        </ul>
-      </div>
-      <div class="card reveal">
-        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.2c0 5-3.8 8.1-7.5 9.8-3.7-1.7-7.5-4.8-7.5-9.8V6z"/><path d="M9 12l2 2 4-4.2"/></svg></div>
-        <h3>Self-contained и аккуратный</h3>
-        <p>Код можно читать целиком — он небольшой и commented.</p>
-        <ul>
-          <li>Без HTTP, FFI, скачанных модулей и внешних конфигов</li>
-          <li>Вся логика в pcall, трекинг недостающего API</li>
-          <li>Оригинальные углы всегда восстанавливаются</li>
-        </ul>
-      </div>
-    </div>
-    <div class="note reveal">
-      <b>Честно об ограничениях:</b> резолвер эвристический — он правит LBY по наблюдаемым данным
-      и брутфорсит по промахам, а не вскрывает скрытые углы сервера. Эффекты не рисуются за спиной
-      камеры (так и задумано). Скрипт проверен AST-чекерами и API-моком, но не в живой игре —
-      при проблемах смотри консоль (<code>[flawless] ...</code>).
-    </div>
-  </section>
-
-  <section id="install" class="sect wrap">
-    <div class="sec-head">
-      <h2>Установка <em>за минуту</em></h2>
-      <p class="sec-sub">Нужен чит-клиент gamesense.pub (skeet) с рабочим Lua API и CS:GO Legacy.</p>
-    </div>
-    <div class="steps">
-      <div class="step reveal">
-        <span class="num">01</span>
-        <div><b>Скачай файл</b><p>Кнопкой выше — получишь чистый <code class="path">flawless_legacy.lua</code> (v1.4.2). Больше файлов не нужно.</p></div>
-      </div>
-      <div class="step reveal">
-        <span class="num">02</span>
-        <div><b>Положи в папку lua игры</b><p>Например: <code class="path">...\Counter-Strike Global Offensive\csgo\lua</code> (в Legacy-сборке папка называется <code class="path">csgo legacy\lua</code>).</p></div>
-      </div>
-      <div class="step reveal">
-        <span class="num">03</span>
-        <div><b>Загрузи в клиенте</b><p>В игре открой меню чит-клиента → вкладка <b>LUA</b>, раздел <b>B</b>, выбери <code class="path">flawless_legacy.lua</code> и загрузи. В консоли появится <code class="path">[flawless] Legacy 1.4.2 loaded</code>.</p></div>
-      </div>
-      <div class="step reveal">
-        <span class="num">04</span>
-        <div><b>Включи мастер</b><p>Поставь галку <code class="path">flawless | Enable</code>. Резолвер уже включён по умолчанию; настройка — страницы Resolver / Visuals / Profiles.</p></div>
-      </div>
-      <div class="step reveal">
-        <span class="num">05</span>
-        <div><b>Сверь хеш (по желанию)</b><p>Сравни SHA-256 скачанного файла с хешем на этой странице — так ты точно играешь той версией, что описана здесь.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="changelog" class="sect wrap">
-    <div class="sec-head">
-      <h2>Changelog</h2>
-      <p class="sec-sub">Проект переписывается целиком каждую итерацию — история версий:</p>
-    </div>
-    <div class="timeline">
-      <div class="rel latest reveal">
-        <div class="ver">1.4.2</div>
-        <p>Фикс загрузки: возвращён хелпер <code>combo</code> — дропдаун направления скоп-сдвига крашил загрузку скрипта.</p>
-      </div>
-      <div class="rel reveal">
-        <div class="ver">1.4.1</div>
-        <p>Дропдаун направления скоп-сдвига Left / Right; резолвер включён по умолчанию; LBY стал приоритетным источником на земле.</p>
-      </div>
-      <div class="rel reveal">
-        <div class="ver">1.4.0</div>
-        <p>Векторное лого (бриллиант + F) и текст-only индикатор у прицела с плавным сдвигом при прицеливании.</p>
-      </div>
-      <div class="rel reveal">
-        <div class="ver">1.3.0</div>
-        <p>AA-билдер и Manual AA удалены (анти-аим настраивается в самом ските). Добавлены мировые 3D-эффекты: хит-частицы и килл-бурст с ударными волнами.</p>
-      </div>
-      <div class="rel reveal">
-        <div class="ver">1.2.0</div>
-        <p>Полностью переписан резолвер без Player List: LBY / eye angles / velocity / choke-детект, brute force по промахам. Новая ватермарка.</p>
-      </div>
-      <div class="rel reveal">
-        <div class="ver">1.1.0</div>
-        <p>Первая версия: state-based анти-аим и резолвер на Player List (теперь доступен только как legacy-путь импорта настроек).</p>
-      </div>
+      <code id="sha">c3e5d798c7ab5077dbdeae43364f1db4aa067f608da84113f9067701729c6060</code>
+      <button class="copy" data-copy="c3e5d798c7ab5077dbdeae43364f1db4aa067f608da84113f9067701729c6060">копировать</button>
     </div>
   </section>
 </main>
-
-<footer>
-  <div class="wrap foot">
-    <div class="brand"><svg><use href="#logo"/></svg>flawless <span class="tag">LEGACY</span></div>
-    <div>© <span id="year"></span> — неофициальный фанатский проект. Не аффилирован с gamesense.pub и Valve.<br>Файл ставится локально и ничего не скачивает сам. Используй на свой страх и риск.</div>
-  </div>
-</footer>
 
 <script>
 (function(){
   "use strict";
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- background: drifting world-space style particles ---------- */
   var c = document.getElementById("bg"), ctx = c.getContext("2d");
   var W, H, P = [], mx = 0, my = 0, last = performance.now();
   var COLORS = [[161,132,255],[96,217,235],[116,225,178]];
@@ -440,7 +189,6 @@ footer{border-top:1px solid var(--border);margin-top:84px;padding:34px 0 46px;co
     }
   } else requestAnimationFrame(step);
 
-  /* ---------- copy buttons ---------- */
   document.querySelectorAll("[data-copy]").forEach(function(btn){
     var label = btn.textContent;
     btn.addEventListener("click", function(){
@@ -463,7 +211,6 @@ footer{border-top:1px solid var(--border);margin-top:84px;padding:34px 0 46px;co
     });
   });
 
-  /* ---------- reveal on scroll ---------- */
   if ("IntersectionObserver" in window && !reduce){
     var io = new IntersectionObserver(function(es){
       es.forEach(function(e){
@@ -474,8 +221,6 @@ footer{border-top:1px solid var(--border);margin-top:84px;padding:34px 0 46px;co
   } else {
     document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); });
   }
-
-  document.getElementById("year").textContent = new Date().getFullYear();
 })();
 </script>
 </body>
