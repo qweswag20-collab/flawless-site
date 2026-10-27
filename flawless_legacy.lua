@@ -1,17 +1,9 @@
--- flawless Legacy 1.4.0 | Skeet / gamesense, CS:GO Lua API.
+-- flawless 1.4.3 | Skeet / gamesense, CS:GO Lua API.
 -- Self-contained: no HTTP, FFI, downloaded modules, or remote configs.
--- Master starts disabled. Menu: LUA > B. Runtime tested with an API mock,
--- not inside the game. See README_flawless.md for controls and limitations.
--- 1.3.0: AA builder and manual AA removed. Visuals are now world-space 3D
--- hit particles and kill bursts, projected with renderer.world_to_screen.
--- 1.4.0: vector logo emblem and a text-only crosshair indicator that
--- smoothly shifts left while scoped.
--- 1.4.1: scope shift direction dropdown (left / right); resolver enabled by
--- default and LBY-first on ground states.
--- 1.4.2: fixed missing combo() helper (scope dropdown crashed on load).
+-- Master starts disabled. Menu: LUA > B.
 
-local VERSION, DB_KEY = "1.4.2", "flawless.legacy.v1"
-local LEGACY_DB_KEY = "nexra.legacy.v1"
+local VERSION, DB_KEY = "1.4.3", "flawless.legacy.v1"
+local OLD_DB_KEY = "nexra.legacy.v1"
 local TAB, BOX = "LUA", "B"
 local floor, min, max = math.floor, math.min, math.max
 local unpack = unpack or table.unpack
@@ -113,7 +105,7 @@ local function combo(id, label, options, default)
 end
 
 local U = {}
-U.title = ui.new_label(TAB, BOX, "flawless / LEGACY / " .. VERSION)
+U.title = ui.new_label(TAB, BOX, "flawless / " .. VERSION)
 U.master = ui.new_checkbox(TAB, BOX, "flawless | Enable")
 U.accent = register("accent", "color", ui.new_color_picker(TAB, BOX, "flawless accent", 161, 132, 255, 255), {161, 132, 255, 255})
 U.page = ui.new_combobox(TAB, BOX, "flawless | Page", "Resolver", "Visuals", "Profiles")
@@ -606,9 +598,9 @@ ui.set_callback(U.page, update_visibility)
 
 local read_ok, saved = pcall(database.read, DB_KEY)
 if read_ok and saved == nil then
-    local legacy_ok, legacy = pcall(database.read, LEGACY_DB_KEY)
-    if legacy_ok and type(legacy) == "table" and legacy.schema == 1 then
-        saved = legacy
+    local old_ok, old_cfg = pcall(database.read, OLD_DB_KEY)
+    if old_ok and type(old_cfg) == "table" and old_cfg.schema == 1 then
+        saved = old_cfg
         client.color_log(161, 132, 255, "[flawless] Imported local settings from the previous version.")
     end
 end
@@ -747,7 +739,6 @@ local function draw_watermark(sw, r, g, b, alpha)
     s = s or 0
     local tick = floor(1 / max(globals.tickinterval(), 0.001) + 0.5)
     local name_w = renderer.measure_text("b", "flawless")
-    local tag_w = renderer.measure_text("-", "LEGACY")
     local texts = {
         string.format("%d ms", floor(client.latency() * 1000 + 0.5)),
         string.format("%d fps", floor(runtime.fps + 0.5)),
@@ -759,7 +750,7 @@ local function draw_watermark(sw, r, g, b, alpha)
         tw[i] = renderer.measure_text("", texts[i])
         info_w = info_w + tw[i] + 21
     end
-    local w = 22 + name_w + 4 + tag_w + 12 + info_w
+    local w = 22 + name_w + 12 + info_w
     local bh = 27
     local x, y = sw - w - 12, 12
     local a = floor(255 * alpha)
@@ -771,9 +762,7 @@ local function draw_watermark(sw, r, g, b, alpha)
     renderer.rectangle(x + 10, y + 12, 4, 4, dot[1], dot[2], dot[3], a)
     local cursor = x + 22
     renderer.text(cursor, y + 7, r, g, b, a, "b", 0, "flawless")
-    cursor = cursor + name_w + 4
-    renderer.text(cursor, y + 9, 140, 144, 160, floor(a * 0.75), "-", 0, "LEGACY")
-    cursor = cursor + tag_w + 12
+    cursor = cursor + name_w + 12
     for i = 1, #texts do
         renderer.rectangle(cursor, y + 8, 1, bh - 16, 40, 43, 55, a)
         cursor = cursor + 11
@@ -1050,4 +1039,4 @@ if not resolver_available then
     client.error_log("flawless: entity resolver unavailable; missing entity read/write API.")
 end
 
-client.color_log(161, 132, 255, "[flawless] Legacy " .. VERSION .. " loaded. LUA > B. Master is OFF.")
+client.color_log(161, 132, 255, "[flawless] " .. VERSION .. " loaded. LUA > B. Master is OFF.")
